@@ -8,6 +8,13 @@ nodes:
         nodeRegistration:
           kubeletExtraArgs:
             node-labels: "ingress-ready=true"
+        localAPIEndpoint:
+          advertiseAddress: "172.18.0.2"
+        ---
+        kind: ClusterConfiguration
+        networking:
+          apiServer:
+            advertiseAddress: "172.18.0.2" 
   - role: worker
   - role: worker
 containerdConfigPatches:

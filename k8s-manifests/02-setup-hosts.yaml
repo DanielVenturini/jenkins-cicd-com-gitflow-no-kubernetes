@@ -4,7 +4,7 @@ metadata:
   name: setup-hosts
   namespace: utils
   labels:
-    k8s-app: fluentd-logging
+    k8s-app: setup-hosts
 spec:
   selector:
     matchLabels:
@@ -24,10 +24,12 @@ spec:
       initContainers:
       - name: setup-hosts
         image: busybox
+        # not always kind assigns the same IP address to control-plane
+        # unfortunately there is no workaround solution to this issue
         command:
           - /bin/sh
           - -c
-          - grep -q jenkins.localhost.com /etc/hosts || echo "172.18.0.3 argocd.localhost.com jenkins.localhost.com gitea.localhost.com sonarqube.localhost.com harbor.localhost.com" >> /tmp/etc/hosts
+          - grep -q jenkins.localhost.com /etc/hosts || echo "172.18.0.2 argocd.localhost.com jenkins.localhost.com gitea.localhost.com sonarqube.localhost.com harbor.localhost.com" >> /tmp/etc/hosts
         volumeMounts:
         - name: etc
           mountPath: /tmp/etc/

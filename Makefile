@@ -27,9 +27,9 @@ create:
 	kubectl apply -f k8s-manifests/01-create-namespaces.yaml
 	kubectl apply -f k8s-manifests/02-setup-hosts.yaml
 
-	#$(MAKE) metallb
 	#$(MAKE) ingress-nginx 
 	$(MAKE) helmfile
+	$(MAKE) metallb
 
 helmfile:
 	@helm plugin install https://github.com/databus23/helm-diff || true
@@ -47,7 +47,7 @@ metallb:
 	#	metallb \
 	#	metallb/metallb
 
-	@kubectl -n metallb-system wait --selector=app=metallb --for=condition=ready pod
+	@kubectl -n metallb-system wait --timeout=300s --selector=app.kubernetes.io/name=metallb --for=condition=ready pod
 	@kubectl apply -f k8s-manifests/03-metallb-pool.yaml
 
 # install-helm as pre step

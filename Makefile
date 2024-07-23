@@ -18,9 +18,6 @@ install-helms:
 	@rm -f $(FILE_HELM)
 	@rm -f $(FILE_HELMFILE)
 
-install-helmfile:
-	@curl --output 
-
 create:
 	@kind create cluster --config kind/config.yaml
 
@@ -30,25 +27,40 @@ create:
 	kubectl apply -f k8s-manifests/01-create-namespaces.yaml
 	kubectl apply -f k8s-manifests/02-setup-hosts.yaml
 
-	$(MAKE) metallb
-	$(MAKE) ingress-nginx 
+	#$(MAKE) metallb
+	#$(MAKE) ingress-nginx 
+	$(MAKE) helmfile
+
+helmfile:
+	@helm plugin install https://github.com/databus23/helm-diff || true
+	@helmfile apply -f values/helmfile/helmfile.yaml
 
 metallb:
-	@kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.7/config/manifests/metallb-native.yaml
+	#@kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.7/config/manifests/metallb-native.yaml
+	#@helm repo add metallb https://metallb.github.io/metallb
+	#@helm repo update
+	#@helm upgrade \
+	#	--install \
+	#	--namespace metallb-system \
+	#	--create-namespace \
+	#	-f values/metallb/values.yaml \
+	#	metallb \
+	#	metallb/metallb
+
 	@kubectl -n metallb-system wait --selector=app=metallb --for=condition=ready pod
 	@kubectl apply -f k8s-manifests/03-metallb-pool.yaml
 
 # install-helm as pre step
 ingress-nginx:
-	@helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
-	@helm repo update
-	@helm upgrade \
-		--install \
-		--namespace ingress-nginx \
-		--create-namespace \
-		-f values/ingress-nginx/values.yaml \
-		ingress-nginx \
-		ingress-nginx/ingress-nginx
+	#@helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
+	#@helm repo update
+	#@helm upgrade \
+	#	--install \
+	#	--namespace ingress-nginx \
+	#	--create-namespace \
+	#	-f values/ingress-nginx/values.yaml \
+	#	ingress-nginx \
+	#	ingress-nginx/ingress-nginx
 
 destroy:
 	@kind delete cluster

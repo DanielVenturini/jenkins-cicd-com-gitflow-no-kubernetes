@@ -1,16 +1,16 @@
 # jenkins-cicd-com-gitflow-no-kubernetes
 
-My notes about the DevOps [course](https://www.udemy.com/course/jenkins-cicd-com-gitflow-no-kubernetes) with K8S and Jenkins. This deploy and Kind cluster (Kubernetes In Docker) with Nginx Ingress, Jenkins and Helm.
+My notes about the DevOps [course](https://www.udemy.com/course/jenkins-cicd-com-gitflow-no-kubernetes) with K8S and Jenkins. This deploys a Kind cluster (Kubernetes In Docker) with Nginx Ingress, Jenkins and Helm.
 
 ## Create
 
-Clone this repository and type:
+Clone this repository and run:
 
 ```bash
 make create
 ```
 
-This will create the cluster with Kind. Please, ensure the api-server node (container) has the address `172.18.0.2`, because this is the address configured in `kind/config.yaml`.
+This creates a cluster with Kind. Please, ensure the api-server node (container) has the address `172.18.0.2`, because this is the address configured in `kind/config.yaml`.
 
 ```bash
 docker inspect kind-control-plane --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
@@ -26,7 +26,7 @@ Please, run the following command:
 make destroy
 ```
 
-Or you can simply delete the Kind containers like this:
+Or you can simply delete Kind containers like this:
 
 ```bash
 docker rm -f $(docker ps -qa --filter label=io.x-k8s.kind.cluster=kind)

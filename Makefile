@@ -18,7 +18,7 @@ install-helms:
 	@rm -f $(FILE_HELM)
 	@rm -f $(FILE_HELMFILE)
 
-create:
+create: create-network
 	@kind create cluster --config kind/config.yaml
 
 	#bash utils/01-create-namespaces.sh
@@ -64,3 +64,11 @@ ingress-nginx:
 
 destroy:
 	@kind delete cluster
+	@$(MAKE) delete-network
+
+create-network:
+	@docker network create --subnet 172.18.0.0/16 kind
+
+delete-network:
+	@docker network rm kind || true
+

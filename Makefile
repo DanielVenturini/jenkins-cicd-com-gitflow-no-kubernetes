@@ -31,7 +31,7 @@ create: create-network
 	$(MAKE) helmfile
 	$(MAKE) metallb
 
-helmfile:
+helmfile: jenkins-secret
 	@helm plugin install https://github.com/databus23/helm-diff || true
 	@helmfile apply -f values/helmfile/helmfile.yaml
 
@@ -61,6 +61,8 @@ ingress-nginx:
 	#	-f values/ingress-nginx/values.yaml \
 	#	ingress-nginx \
 	#	ingress-nginx/ingress-nginx
+jenkins-secret:
+	@kubectl apply -f k8s-manifests/04-jenkins-admin-secrets.yaml
 
 destroy:
 	@kind delete cluster

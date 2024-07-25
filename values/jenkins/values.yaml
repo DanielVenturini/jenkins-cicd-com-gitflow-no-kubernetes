@@ -1,0 +1,62 @@
+namespaceOverride: jenkins
+
+controller:
+  numExecutors: 0
+
+  admin:
+    createSecret: true
+    userKey: jenkins-admin-user
+    passwordKey: jenkins-admin-password
+    existingSecret: jenkins-admin-credential
+
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "256Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1024Mi"
+
+  jenkinsUrlProtocol: http
+  jenkinsUrl:
+
+  containerSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+
+  # For minikube, set this to NodePort, elsewhere uses LoadBalancer
+  # Use ClusterIP if your setup includes ingress controller
+  # -- k8s service type
+  serviceType: ClusterIP
+
+  servicePort: 8080
+  targetPort: 8080
+  # -- k8s node port. Only used if serviceType is NodePort
+  #nodePort: 30000
+
+  nodeSelector: {}
+
+  tolerations: []
+  affinity: {}
+
+  ingress:
+    enabled: true
+    apiVersion: "networking.k8s.io/v1"
+
+    #paths:
+    #- backend:
+    #   serviceName: jenkins
+    #   servicePort: 8080
+    #   pathType: Prefix
+
+    ingressClassName: nginx
+    hostName: jenkins.localhost.com
+
+persistence:
+  enabled: true
+  existingClaim:
+  accessMode: "ReadWriteOnce"
+  size: "1Gi"
+

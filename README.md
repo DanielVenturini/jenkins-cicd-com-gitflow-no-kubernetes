@@ -31,3 +31,13 @@ Or you can simply delete Kind containers like this:
 ```bash
 docker rm -f $(docker ps -qa --filter label=io.x-k8s.kind.cluster=kind)
 ```
+
+### Network considerations
+
+If the Kind cluster is running inside another host, such as a VM, some redirects may be required:
+```bash
+kubectl get ingress -A    # check ingress's address
+iptables -t nat -A PREROUTING -p tcp -d LOCAL_IP_ADDRESS --dport 80 -j DNAT --to-destination INGRESS_ADDRESS:80
+iptables -t nat -A POSTROUTING -p tcp -d INGRESS_ADDRESS --dport 80 -j MASQUERADE
+iptables -A FORWARD -p tcp -d INGRESS_ADDRESS --dport 80 -j ACCEPT
+```

@@ -46,10 +46,10 @@ controller:
     apiVersion: "networking.k8s.io/v1"
 
     #paths:
-    #- backend:
-    #   serviceName: jenkins
-    #   servicePort: 8080
-    #   pathType: Prefix
+    #- backend: 
+    #  serviceName: jenkins
+    #  servicePort: 8080
+    #  pathType: Prefix
 
     ingressClassName: nginx
     hostName: jenkins.localhost.com

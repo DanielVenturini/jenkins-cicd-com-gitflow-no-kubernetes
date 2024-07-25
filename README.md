@@ -34,7 +34,8 @@ docker rm -f $(docker ps -qa --filter label=io.x-k8s.kind.cluster=kind)
 
 ### Network considerations
 
-If the Kind cluster is running inside another host, such as a VM, some redirects may be required:
+If Kind cluster is running inside of another host, such as a VM, some redirects may be required:
+
 ```bash
 kubectl get ingress -A    # check ingress's address
 iptables -t nat -A PREROUTING -p tcp -d LOCAL_IP_ADDRESS --dport 80 -j DNAT --to-destination INGRESS_ADDRESS:80

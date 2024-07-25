@@ -1,0 +1,11 @@
+# /etc/systemd/system/redirect-to-ingress.service
+[Unit]
+Description=Apply specific iptables rules
+
+[Service]
+Type=oneshot
+ExecStart=/root/redirect-to-ingress.sh
+
+[Install]
+WantedBy=multi-user.target
+

@@ -42,3 +42,5 @@ iptables -t nat -A PREROUTING -p tcp -d LOCAL_IP_ADDRESS --dport 80 -j DNAT --to
 iptables -t nat -A POSTROUTING -p tcp -d INGRESS_ADDRESS --dport 80 -j MASQUERADE
 iptables -A FORWARD -p tcp -d INGRESS_ADDRESS --dport 80 -j ACCEPT
 ```
+
+Please, check `utils/redirect-to-ingress.sh` and `utils/redirect-to-ingress.service`.

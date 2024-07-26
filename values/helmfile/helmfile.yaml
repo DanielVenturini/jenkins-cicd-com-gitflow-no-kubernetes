@@ -11,6 +11,8 @@ repositories:
   url: https://helm.goharbor.io
 - name: sonarqube
   url: https://SonarSource.github.io/helm-chart-sonarqube
+- name: argo
+  url: https://argoproj.github.io/argo-helm
 
 commonLabels:
   managed-by: helmfile
@@ -57,3 +59,10 @@ releases:
   version: 10.6.1+3163
   values:
   - /home/kind/gitflow/values/sonarqube/values.yaml
+
+- name: argo
+  namespace: argo
+  chart: argo/argo-cd
+  version: 3.35.4
+  values:
+  - /home/kind/gitflow/values/argocd/values.yaml

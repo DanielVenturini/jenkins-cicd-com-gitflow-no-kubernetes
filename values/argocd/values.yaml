@@ -1,0 +1,34 @@
+global:
+  domain: argocd.localhost.com
+
+  logging:
+    level: info
+
+configs:
+    server.insecure: true
+
+server:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  ingress:
+    enabled: true
+    controller: generic
+    ingressClassName: "nginx"
+    hostname: "argocd.localhost.com"
+    path: /
+    pathType: Prefix
+
+controller:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi
+

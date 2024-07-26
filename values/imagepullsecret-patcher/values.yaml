@@ -1,0 +1,3 @@
+conf:
+  secretName: "harbor-credentials"
+

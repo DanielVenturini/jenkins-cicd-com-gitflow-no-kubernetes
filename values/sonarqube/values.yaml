@@ -1,0 +1,37 @@
+deploymentType: "Deployment"
+
+replicaCount: 1
+
+ingress:
+  enabled: true
+  hosts:
+    - name: sonarqube.localhost.com
+  ingressClassName: nginx
+
+monitoringPasscodeSecretName: "sonarqube-admin-secret"
+monitoringPasscodeSecretKey: "password"
+
+resources:
+  limits:
+    cpu: 400m
+    memory: 2048M
+    ephemeral-storage: 1536M
+  requests:
+    cpu: 100m
+    memory: 512M
+    ephemeral-storage: 1024M
+
+## ref: https://github.com/bitnami/charts/blob/master/bitnami/postgresql/README.md
+postgresql:
+  enabled: true
+  resources:
+    limits:
+      cpu: 300m
+      memory: 500Mi
+    requests:
+      cpu: 150m
+      memory: 200Mi
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 1Gi

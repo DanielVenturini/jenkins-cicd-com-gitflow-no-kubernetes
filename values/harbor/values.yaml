@@ -1,0 +1,41 @@
+expose:
+  type: ingress
+  tls:
+    enabled: false
+  ingress:
+    hosts:
+      core: harbor.localhost.com
+    className: nginx
+
+externalURL: http://harbor.localhost.com
+
+persistence:
+  enabled: true
+  persistentVolumeClaim:
+    registry:
+      size: 1Gi
+    jobservice:
+      jobLog:
+        size: 1Gi
+    database:
+      size: 1Gi
+    redis:
+      size: 1Gi
+
+    type: filesystem
+    filesystem:
+      rootdirectory: /storage
+
+existingSecretAdminPassword: harbor-admin-credential
+existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
+
+logLevel: info
+
+core:
+  replicas: 1
+
+jobservice:
+  replicas: 1
+
+trivy:
+  enabled: false
